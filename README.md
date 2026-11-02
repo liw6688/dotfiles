@@ -6,7 +6,7 @@ Use [chezmoi](https://www.chezmoi.io/) to manage the dotfiles.
 
 * zsh: minimal native shell config with a two-line ys-style prompt, aj-rs, `proxy_on`/`proxy_off` helpers, and uv-first Python defaults. No oh-my-zsh, prompt plugins, or completion setup. Proxy ports come from local template data; the proxy auto-enables only when the port is actually listening.
 * vim: minimal Vim config without plugins.
-* Hammerspoon: macOS automation, currently input method auto-switching with an on-screen hint. The app allowlist comes from local template data.
+* Hammerspoon: macOS automation, currently input method auto-switching with an on-screen hint. The app allowlist combines built-in rules with local template data.
 * tmux: default `C-b` prefix, RGB/extended-keys terminal setup, mouse on, 1-based indexing. No plugin manager.
 * git: aliases, Git LFS filter config, global ignore, and `git lg`. Email and per-directory identity overrides come from local template data, not this repo.
 * pip: pip mirror config.

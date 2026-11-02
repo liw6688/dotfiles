@@ -12,12 +12,13 @@ local IM_CHINESE = "com.tencent.inputmethod.wetype.pinyin"  -- 微信输入法
 local IM_ENGLISH = "com.apple.keylayout.ABC"            -- 系统英文 ABC
 
 -- 【第二步】填写需要中文输入法的 App
--- 这份清单等于「我装了哪些软件」，所以不放进公开仓库，而是放在
+-- Paseo 是通用规则；其余本机 App 清单不放进公开仓库，而是放在
 -- ~/.config/chezmoi/chezmoi.toml 的 [[data.chineseApps]] 里（见 README）。
 -- 查询 Bundle ID：切换到目标 App，在 Hammerspoon Console 执行：
 --   hs.application.frontmostApplication():bundleID()
 -- 改完执行 chezmoi apply，再在菜单栏 Reload Config。
 local chineseApps = {
+    "sh.paseo.desktop",         -- Paseo
 {{- if hasKey . "chineseApps" }}
 {{- range .chineseApps }}
     "{{ .id }}",{{ if .comment }}  -- {{ .comment }}{{ end }}
