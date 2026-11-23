@@ -1,13 +1,14 @@
 -- ============================================================
 --  输入法自动切换
---  规则：列表内的 App → 微信输入法；其余 App → 英文 ABC
+--  规则：列表内的 App → 系统简体拼音；其余 App → 英文 ABC
 -- ============================================================
 
 -- 【第一步】确认输入法 ID
 -- 切换到对应输入法后，在 Hammerspoon Console 执行以下命令查询：
 --   hs.keycodes.currentSourceID()
 
-local IM_CHINESE = "com.tencent.inputmethod.wetype.pinyin"  -- 微信输入法
+local IM_CHINESE = "com.apple.inputmethod.SCIM.ITABC"  -- 系统简体拼音
+-- local IM_CHINESE = "com.tencent.inputmethod.wetype.pinyin"  -- 微信输入法
 -- local IM_CHINESE = "com.bytedance.inputmethod.doubaoime.pinyin"  -- 豆包输入法
 local IM_ENGLISH = "com.apple.keylayout.ABC"            -- 系统英文 ABC
 
