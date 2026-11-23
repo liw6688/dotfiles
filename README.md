@@ -11,7 +11,6 @@ Use [chezmoi](https://www.chezmoi.io/) to manage the dotfiles.
 * git: aliases, Git LFS filter config, global ignore, and `git lg`. Email, per-directory identity overrides, and per-remote identity switching for multiple GitHub accounts come from local template data, not this repo.
 * pip: pip mirror config.
 * ghostty: Solarized Light (custom palette matching iTerm2), JetBrains Mono with MiSans CJK fallback, and iTerm2-aligned cursor/scrollback/Option-as-Alt settings.
-* karabiner: keyboard modifier mappings (Command/Option swap). Bluetooth MAC addresses come from local template data.
 * gh: GitHub CLI config and aliases.
 * herdr: minimal terminal multiplexer/agent workspace config. Unspecified values follow Herdr defaults; explicit settings cover onboarding, theme, pane history, and toast delivery.
 
@@ -29,7 +28,6 @@ sourceDir = "/path/to/this/repo"
 
 [data]
   email = "you@example.com"
-  keyboardAddress = "aa-bb-cc-dd-ee-ff"    # Karabiner Bluetooth keyboard
 
   proxyHttpPort = 7890                     # shell proxy_on/proxy_off
   proxySocksPort = 7891
@@ -56,7 +54,6 @@ sourceDir = "/path/to/this/repo"
 | `dot_gitconfig.tmpl` | `email`, `gitIncludes`, `gitUrlIncludes`, `gitUrlRewrites` |
 | `dot_zshrc.tmpl` | `proxyHttpPort`, `proxySocksPort` |
 | `dot_hammerspoon/init.lua.tmpl` | `chineseApps` |
-| `dot_config/private_karabiner/private_karabiner.json.tmpl` | `keyboardAddress` |
 
 Every key is optional. Without local data the templates fall back to neutral
 defaults and `chezmoi apply` still succeeds, so a fresh clone works before the
@@ -83,7 +80,7 @@ Nothing here hardcodes a username or a machine path. Specifically:
 * The proxy turns on only when something is listening on the configured port.
   Enabling it unconditionally breaks `git`, `curl`, and `brew` on machines with
   no proxy running.
-macOS-specific pieces (Hammerspoon, Karabiner, Ghostty, the `/Applications`
+macOS-specific pieces (Hammerspoon, Ghostty, the `/Applications`
 aliases) are inert or simply unused elsewhere.
 
 ## Routine maintenance
