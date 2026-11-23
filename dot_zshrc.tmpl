@@ -98,7 +98,8 @@ _proxy_port_open() {
 # 只在代理确实监听时自动开启，避免 git/curl/brew 连接被拒。
 _proxy_port_open "$PROXY_HTTP_PORT" && proxy_on >/dev/null
 
-# my own aj-rs
+# my own aj-rs: brew install danliustc/tap/aj-rs
+# 不要装 brew 官方的 autojump（Python 原版，没有 --init，会在每次开终端时报错）。
 command -v autojump >/dev/null 2>&1 && eval "$(autojump --init zsh)"
 
 # Homebrew USTC mirrors
@@ -107,3 +108,5 @@ command -v autojump >/dev/null 2>&1 && eval "$(autojump --init zsh)"
 # export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
 # export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 # export HOMEBREW_NO_ENV_HINTS="1"
+
+_prepend_path "$HOME/.local/bin"
