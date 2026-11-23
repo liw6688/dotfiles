@@ -8,7 +8,7 @@ Use [chezmoi](https://www.chezmoi.io/) to manage the dotfiles.
 * vim: minimal Vim config without plugins.
 * Hammerspoon: macOS automation, currently input method auto-switching with an on-screen hint. The app allowlist combines built-in rules with local template data.
 * tmux: default `C-b` prefix, RGB/extended-keys terminal setup, mouse on, 1-based indexing. No plugin manager.
-* git: aliases, Git LFS filter config, global ignore, and `git lg`. Email and per-directory identity overrides come from local template data, not this repo.
+* git: aliases, Git LFS filter config, global ignore, and `git lg`. Email, per-directory identity overrides, and per-remote identity switching for multiple GitHub accounts come from local template data, not this repo.
 * pip: pip mirror config.
 * ghostty: Solarized Light (custom palette matching iTerm2), JetBrains Mono with MiSans CJK fallback, and iTerm2-aligned cursor/scrollback/Option-as-Alt settings.
 * karabiner: keyboard modifier mappings (Command/Option swap). Bluetooth MAC addresses come from local template data.
@@ -38,6 +38,14 @@ sourceDir = "/path/to/this/repo"
     gitdir = "/path/to/work/repos/"
     path = ".gitconfig-work"
 
+  [[data.gitUrlIncludes]]                  # optional, repeatable: identity by remote URL
+    pattern = "git@github.com:other-account/**"
+    path = "/path/to/.gitconfig-other"
+
+  [[data.gitUrlRewrites]]                  # optional, repeatable: route URLs to an ssh Host alias
+    base = "git@github-other:other-account/"
+    insteadOf = ["git@github.com:other-account/", "https://github.com/other-account/"]
+
   [[data.chineseApps]]                     # Hammerspoon input-method allowlist
     id = "com.apple.Notes"
     comment = "Notes"
@@ -45,7 +53,7 @@ sourceDir = "/path/to/this/repo"
 
 | Template | Reads |
 | --- | --- |
-| `dot_gitconfig.tmpl` | `email`, `gitIncludes` |
+| `dot_gitconfig.tmpl` | `email`, `gitIncludes`, `gitUrlIncludes`, `gitUrlRewrites` |
 | `dot_zshrc.tmpl` | `proxyHttpPort`, `proxySocksPort` |
 | `dot_hammerspoon/init.lua.tmpl` | `chineseApps` |
 | `dot_config/private_karabiner/private_karabiner.json.tmpl` | `keyboardAddress` |

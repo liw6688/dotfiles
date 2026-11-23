@@ -40,3 +40,22 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+# 多账号：按 remote 地址切换身份。真实账号和邮箱在 ~/.config/chezmoi/chezmoi.toml
+# 的 gitUrlIncludes / gitUrlRewrites 里（带说明），不进这个公开仓库。
+# - includeIf：remote 地址匹配时额外加载一个文件，通常用来覆盖 user.email
+# - url.insteadOf：把某个账号的仓库地址改写成 ~/.ssh/config 里的 Host 别名，
+#   让 ssh 用对应账号的 key，clone 时直接复制网页地址即可
+{{- if hasKey . "gitUrlIncludes" }}
+{{- range .gitUrlIncludes }}
+[includeIf "hasconfig:remote.*.url:{{ .pattern }}"]
+	path = {{ .path }}
+{{- end }}
+{{- end }}
+{{- if hasKey . "gitUrlRewrites" }}
+{{- range .gitUrlRewrites }}
+[url "{{ .base }}"]
+{{- range .insteadOf }}
+	insteadOf = {{ . }}
+{{- end }}
+{{- end }}
+{{- end }}
