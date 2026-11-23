@@ -29,8 +29,8 @@ sourceDir = "/path/to/this/repo"
 [data]
   email = "you@example.com"
 
-  proxyHttpPort = 7890                     # shell proxy_on/proxy_off
-  proxySocksPort = 7891
+  proxyHttpPort = 6152                     # shell proxy_on/proxy_off; default: Surge 6152/6153
+  proxySocksPort = 6153                    # (Clash uses 7890/7891)
 
   [[data.gitIncludes]]                     # optional, repeatable
     gitdir = "/path/to/work/repos/"
@@ -80,6 +80,10 @@ Nothing here hardcodes a username or a machine path. Specifically:
 * The proxy turns on only when something is listening on the configured port.
   Enabling it unconditionally breaks `git`, `curl`, and `brew` on machines with
   no proxy running.
+* Keep the shell proxy on even when Surge's enhanced mode is enabled. CLI tools
+  such as Node-based agents ignore the macOS system proxy, and in enhanced mode
+  Surge then sees only a bare IP, so domain rules miss and the connection falls
+  through to `FINAL`. Going through the proxy port hands Surge the hostname.
 macOS-specific pieces (Hammerspoon, Ghostty, the `/Applications`
 aliases) are inert or simply unused elsewhere.
 

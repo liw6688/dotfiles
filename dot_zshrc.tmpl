@@ -70,9 +70,12 @@ PROMPT="
 # for typora
 [[ -d /Applications/Typora.app ]] && alias typora='/Applications/Typora.app/Contents/MacOS/Typora'
 
-# 代理开关。端口来自本地 chezmoi data，未配置时使用通用默认值。
-PROXY_HTTP_PORT={{ if hasKey . "proxyHttpPort" }}{{ .proxyHttpPort }}{{ else }}7890{{ end }}
-PROXY_SOCKS_PORT={{ if hasKey . "proxySocksPort" }}{{ .proxySocksPort }}{{ else }}7891{{ end }}
+# 代理开关。端口来自本地 chezmoi data，未配置时使用 Surge 的默认端口（HTTP 6152 / SOCKS5 6153）。
+# 即使开了 Surge 增强模式也要导出这些变量：Node 等命令行工具不读系统代理，增强模式下
+# Surge 只看到裸 IP，按域名写的规则匹配不上，会落到 FINAL（例如 pi 登录 ChatGPT 被分到
+# 香港节点，报 unsupported country）。走代理端口时 Surge 拿得到域名，规则才能完整生效。
+PROXY_HTTP_PORT={{ if hasKey . "proxyHttpPort" }}{{ .proxyHttpPort }}{{ else }}6152{{ end }}
+PROXY_SOCKS_PORT={{ if hasKey . "proxySocksPort" }}{{ .proxySocksPort }}{{ else }}6153{{ end }}
 
 proxy_on() {
   export http_proxy="http://127.0.0.1:${PROXY_HTTP_PORT}"
