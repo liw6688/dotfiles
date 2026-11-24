@@ -1,6 +1,7 @@
 -- ============================================================
 --  输入法自动切换
---  规则：列表内的 App → 系统简体拼音；其余 App → 英文 ABC
+--  规则：中文清单内的 App → 系统简体拼音；保持清单内的 App → 不切换；
+--        其余 App → 英文 ABC
 -- ============================================================
 
 -- 【第一步】确认输入法 ID
@@ -31,6 +32,16 @@ local chineseApps = {
 {{- end }}
 }
 
+-- 【第三步】填写进入时保持当前输入法、不做切换的 App（中英都常用的）
+-- 清单同样放在 chezmoi.toml 的 [[data.keepApps]] 里，未配置时为空。
+local keepApps = {
+{{- if hasKey . "keepApps" }}
+{{- range .keepApps }}
+    "{{ .id }}",{{ if .comment }}  -- {{ .comment }}{{ end }}
+{{- end }}
+{{- end }}
+}
+
 -- ============================================================
 --  以下无需修改
 -- ============================================================
@@ -38,6 +49,11 @@ local chineseApps = {
 local chineseAppSet = {}
 for _, id in ipairs(chineseApps) do
     chineseAppSet[id] = true
+end
+
+local keepAppSet = {}
+for _, id in ipairs(keepApps) do
+    keepAppSet[id] = true
 end
 
 -- 切换提示：屏幕右上角的半透明小胶囊，短暂显示，不打断操作
@@ -80,6 +96,7 @@ local function showHint(text)
 end
 
 local function switchInput(bundleID)
+    if keepAppSet[bundleID] then return end
     local target = chineseAppSet[bundleID] and IM_CHINESE or IM_ENGLISH
     if hs.keycodes.currentSourceID() ~= target then
         if hs.keycodes.currentSourceID(target) then

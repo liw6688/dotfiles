@@ -6,7 +6,7 @@ Use [chezmoi](https://www.chezmoi.io/) to manage the dotfiles.
 
 * zsh: minimal native shell config with a two-line ys-style prompt, aj-rs, `proxy_on`/`proxy_off` helpers, and uv-first Python defaults. No oh-my-zsh, prompt plugins, or completion setup. Proxy ports come from local template data; the proxy auto-enables only when the port is actually listening.
 * vim: minimal Vim config without plugins.
-* Hammerspoon: macOS automation, currently input method auto-switching with an on-screen hint. The app allowlist combines built-in rules with local template data.
+* Hammerspoon: macOS automation, currently input method auto-switching with an on-screen hint. Apps on the Chinese list switch to Pinyin, apps on the keep list are left alone, and everything else switches to ABC. The Chinese list combines built-in rules with local template data.
 * tmux: default `C-b` prefix, RGB/extended-keys terminal setup, mouse on, 1-based indexing. No plugin manager.
 * git: aliases, Git LFS filter config, global ignore, and `git lg`. Email, per-directory identity overrides, and per-remote identity switching for multiple GitHub accounts come from local template data, not this repo.
 * pip: pip mirror config.
@@ -44,16 +44,20 @@ sourceDir = "/path/to/this/repo"
     base = "git@github-other:other-account/"
     insteadOf = ["git@github.com:other-account/", "https://github.com/other-account/"]
 
-  [[data.chineseApps]]                     # Hammerspoon input-method allowlist
+  [[data.chineseApps]]                     # Hammerspoon: switch to Chinese input
     id = "com.apple.Notes"
     comment = "Notes"
+
+  [[data.keepApps]]                        # Hammerspoon: leave the input method as is
+    id = "com.apple.Safari"
+    comment = "Safari"
 ```
 
 | Template | Reads |
 | --- | --- |
 | `dot_gitconfig.tmpl` | `email`, `gitIncludes`, `gitUrlIncludes`, `gitUrlRewrites` |
 | `dot_zshrc.tmpl` | `proxyHttpPort`, `proxySocksPort` |
-| `dot_hammerspoon/init.lua.tmpl` | `chineseApps` |
+| `dot_hammerspoon/init.lua.tmpl` | `chineseApps`, `keepApps` |
 
 Every key is optional. Without local data the templates fall back to neutral
 defaults and `chezmoi apply` still succeeds, so a fresh clone works before the
